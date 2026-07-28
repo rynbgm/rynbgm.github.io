@@ -48,7 +48,7 @@ This indicates that the web application is vulnerable to SQL injection due to im
 
 So the query might look something like this:
 
-`select id,... from table where candidat_name like '%form_input%' ...etc`
+`select id,... from table where name like '%form_input%' ...etc`
 
 The admin credentials may or may not be in the same table. In the first case, the query might be filtering them from us, and in the second, we will have to enumerate all the tables, then columns, etc... 
 
