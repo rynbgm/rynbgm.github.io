@@ -6,7 +6,7 @@ After getting the target IP, we will begin by enumerating our target and explori
 
 We will start with an Nmap scan on the IP.
 
-![image1](images/image1.jpg)
+![image1](images/image1.png)
 
 We got 4 possible open ports, including SSH, DNS, and HTTP.
 
