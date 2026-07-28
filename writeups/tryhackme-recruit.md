@@ -43,7 +43,6 @@ Now our goal is to get admin access level on the server.
 
 From our previous enumeration, we saw that there was a database involved, so I tried a simple quote on the search bar and it provoked a MySQL syntax error.
 
-![image6](images/image6.png)
 
 This indicates that the web application is vulnerable to SQL injection due to improper sanitization of user inputs. Let's exploit that! 
 
