@@ -4,17 +4,18 @@
 
 Let's start the enumeration phase with an nmap scan on our IP:
 
-*(images/image1.png)*
+![image1](images/ham_image1.png)
+
 
 We got two possible open ports here: SSH on port 22 and HTTP on port 1337.
 
 Let's start by checking the web application on port 1337:
 
-*(images/image2.png)*
+![image2](images/ham_image2.png)
 
 We have a normal looking login page that expects an email, password, and a "forgot password" link. Continuing with our enumeration phase, we can see a comment in the source code that says: `"<!-- Dev Note: Directory naming convention must be hmr_DIRECTORY_NAME -->"`
 
-*(images/image3.png)*
+![image3](images/ham_image3.png)
 
 Moving on to directory enumeration, we can tell that if the naming convention is respected, our traditional wordlists won't be that useful to find custom directories, so we will have to adapt them or just adapt the command line with ffuf like this:
 
@@ -24,7 +25,7 @@ We get two interesting leads with this:
 
 The first one is an image:
 
-*(images/hum_image4.png)*
+![image4](images/ham_image4.png)
 
 And the second one is some logged errors.
 
@@ -36,7 +37,7 @@ One piece of information that I get from that file is that there were two failed
 
 The first one failed because of a password mismatch, and the second because it was an invalid email for an admin authentication, which makes me believe that this email might be a correct one. We can confirm this by trying to log in with a random password using this email and a made-up one (the error isn't the same), so we'll try to use it with the "forgot your password" link.
 
-*(images/hum_image5.png)*
+![image5](images/ham_image5.png)
 
 Now we can see that a 4-digit code has been sent to the email address and we have 3 minutes (180 seconds) to submit the code.
 
@@ -48,7 +49,7 @@ After correctly setting the Intruder with incremental numbers from `0000` to `99
 
 Unfortunately, with this configuration I got rate-limited, and that was part of the information we gathered before from the logged errors:
 
-*(images/hum_image6.png)*
+![image6](images/ham_image6.png)
 
 After a long time, I noticed a response header named `Rate-Limit-Pending` with a value of `9` (+1 for the previous request), which does match the number of valid requests made by the Intruder before getting a rate-limit block.
 
@@ -60,7 +61,7 @@ So I understood the vulnerability: the rate limit depends on our PHP session coo
 
 At first, I tried to configure a whole Session Handling Rule and Macro in Burp Suite to automatically request a new cookie before hitting the rate limit *(you can see my macro setup testing below where it successfully resets the session and returns a 302 Found)*:
 
-*(images/ham_image7.png)*
+![image7](images/ham_image7.png)
 
 While it is technically possible, doing this in Burp Suite turned out to be a bad idea:
 * **It's way too slow:** Burp Community Edition throttles Intruder requests. Testing 10,000 combinations would take forever, especially when we only have a 180-second timer on the server side.
@@ -160,9 +161,9 @@ To successfully log in, we just need to replace the browser's `PHPSESSID` cookie
 
 And we are finally logged into the dashboard and get the user flag after setting a new password!
 
-*(images/reset.png)*
+![reset](images/reset.png)
 
-*(images/logged.jpg)*
+![logged](images/logged.png)
 
 ---
 
@@ -174,26 +175,26 @@ So the first thing we want to do is to stop being logged out. For that, we can j
 
 Most of the commands I tested were not allowed, probably due to `execute_command.php` doing some filtering or using an allowlist. Fortunately, `ls` is working and we can list the content of the current directory:
 
-*(images/ham_image8.jpg)*
+![image8](images/ham_image8.png)
 
-*(images/ls.jpg)*
+![ls](images/ls.png)
 
 We also notice on the page that our role is currently `"user"`. Looking at my browser requests and cookies, I previously saw that we are authenticated using a JWT token:
 
-*(images/ham_image9.png)*
+![image9](images/ham_image9.png)
 
 Notice from our `ls` output earlier that there is a key file named `******.key` in the web directory! Since we know its location on the server (`/var/****.key`), maybe this exact key is used to sign the JWT token.
 
 We can try crafting a new JWT token with a higher role (`admin`) and point the `kid` (Key ID) header to that key file to see if it unlocks more commands for us. Using jwt.io, we configure the Header and Payload like this:
 
-*(images/ham_image10.png)*
+![image10](images/ham_image10.png)
 
 After replacing our JWT cookie with this newly forged admin token, we test sending a command that was previously restricted, like `ls -la`... and we get a valid command execution!
 
-*(images/ham_image11.png)*
+![image11](images/ham_image11.png)
 
 Now we just need to read the root flag located at `/home/ubuntu/flag.txt` as instructed by the challenge description.
 
-*(images/ham_image12.png)*
+![image12](images/ham_image12.png)
 
 
