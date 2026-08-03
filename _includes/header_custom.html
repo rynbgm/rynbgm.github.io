@@ -1,21 +1,32 @@
 <button class="btn" id="theme-toggle" style="margin-right: 15px; font-size: 14px;">
-  🌓 Mode
+  🌓 Thème
 </button>
 
 <script>
   const themeToggle = document.getElementById('theme-toggle');
   
-  let currentTheme = 'dark';
+  let savedTheme = localStorage.getItem('theme');
   
+
+  if (savedTheme === 'light') {
+    jtd.setTheme('light');
+  } else {
+    jtd.setTheme('dark');
+    localStorage.setItem('theme', 'dark'); 
+  }
+  
+
   themeToggle.addEventListener('click', function(e) {
-    e.preventDefault();
+    e.preventDefault(); 
+
+    let currentTheme = jtd.getTheme();
     
     if (currentTheme === 'dark') {
       jtd.setTheme('light');
-      currentTheme = 'light';
+      localStorage.setItem('theme', 'light');
     } else {
       jtd.setTheme('dark');
-      currentTheme = 'dark';
+      localStorage.setItem('theme', 'dark');
     }
   });
 </script>
