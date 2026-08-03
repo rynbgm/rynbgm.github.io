@@ -1,5 +1,7 @@
 title: Portfolio - Rayan Boughanem
 description: Étudiant en Master 2 SSI
-theme: just-the-docs
+remote_theme: just-the-docs/just-the-docs
+plugins:
+  - jekyll-remote-theme
 
 url: "https://rynbgm.github.io"
