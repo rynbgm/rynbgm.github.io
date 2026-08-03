@@ -1,0 +1,22 @@
+<button class="btn" id="theme-toggle" style="margin-right: 15px; font-size: 14px;">
+  🌓 Mode
+</button>
+
+<script>
+  // On récupère le bouton
+  const themeToggle = document.getElementById('theme-toggle');
+  
+  // On écoute le clic
+  themeToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    // L'objet 'jtd' est l'API native de Just the Docs
+    let currentTheme = jtd.getTheme();
+    
+    // Si c'est sombre, on passe en clair, sinon l'inverse
+    if (currentTheme === 'dark') {
+      jtd.setTheme('light');
+    } else {
+      jtd.setTheme('dark');
+    }
+  });
+</script>
