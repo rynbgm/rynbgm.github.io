@@ -1,3 +1,9 @@
+---
+layout: default
+title: Hammer - Writeup
+parent: CTF & Writeups
+---
+
 # Hammer - TryHackMe Writeup
 
 *(This writeup was made at the same time as solving this room to rewind retrospectively at the end on the thought process)*

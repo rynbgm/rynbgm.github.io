@@ -1,3 +1,9 @@
+---
+layout: default
+title: Recruit - Writeup
+parent: CTF & Writeups
+---
+
 # Writeup: Recruit
 
 ## 1. Enumeration & Initial Foothold

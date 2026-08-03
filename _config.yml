@@ -1,3 +1,5 @@
-theme: jekyll-theme-slate
 title: Portfolio - Rayan Boughanem
-description: Étudiant en Master 2 SSI - Recherche d'alternance en Cybersécurité
+description: Étudiant en Master 2 SSI
+theme: just-the-docs
+
+url: "https://rynbgm.github.io"

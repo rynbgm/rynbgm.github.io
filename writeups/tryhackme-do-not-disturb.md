@@ -1,3 +1,9 @@
+---
+layout: default
+title: Do Not Disturb - Writeup
+parent: CTF & Writeups
+---
+
 # Do Not Disturb - Writeup
 
 Let's start by looking for open ports with Nmap as usual and see what our starting point will be.
